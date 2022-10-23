@@ -21,17 +21,41 @@ export class Moneybird implements INodeType {
 		outputs: ['main'],
 		credentials: [
 			{
-				name: 'moneybirdApi',
+				name: 'moneybirdApiTokenApi',
 				required: true,
+				displayOptions: {
+					show: {
+						authentication: ['accessToken'],
+					},
+				},
 			},
 			{
 				name: 'moneybirdOAuth2Api',
 				required: true,
+				displayOptions: {
+					show: {
+						authentication: ['oAuth2'],
+					},
+				},
 			},
 		],
 		properties: [
-			// Node properties which the user gets displayed and
-			// can change on the node.
+			{
+				displayName: 'Authentication',
+				name: 'authentication',
+				type: 'options',
+				options: [
+					{
+						name: 'Access Token',
+						value: 'accessToken',
+					},
+					{
+						name: 'OAuth2',
+						value: 'oAuth2',
+					},
+				],
+				default: 'accessToken',
+			},
 			{
 				displayName: 'My String',
 				name: 'myString',

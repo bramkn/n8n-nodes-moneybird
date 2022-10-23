@@ -1,19 +1,19 @@
 {
-  "name": "n8n-nodes-<...>",
+  "name": "n8n-nodes-moneybird",
   "version": "0.1.0",
-  "description": "",
+  "description": "Moneybird node",
   "keywords": [
     "n8n-community-node-package"
   ],
   "license": "MIT",
   "homepage": "",
   "author": {
-    "name": "",
-    "email": ""
+    "name": "Bram Knuever",
+    "email": "bram@knitco.nl"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/<...>/n8n-nodes-<...>.git"
+    "url": "https://github.com/bramkn/n8n-nodes-moneybird.git"
   },
   "main": "index.js",
   "scripts": {
@@ -30,8 +30,8 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/MoneybirdApiToken.credentials.js",
-      "dist/credentials/MoneybirdOauth2.credentials.js"
+      "dist/credentials/MoneybirdApiTokenApi.credentials.js",
+      "dist/credentials/MoneybirdOAuth2Api.credentials.js"
     ],
     "nodes": [
       "dist/nodes/Moneybird/Moneybird.node.js"

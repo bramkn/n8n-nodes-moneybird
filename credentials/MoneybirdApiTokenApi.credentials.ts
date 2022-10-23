@@ -5,8 +5,8 @@ import {
 	INodeProperties,
 } from 'n8n-workflow';
 
-export class MoneybirdApi implements ICredentialType {
-	name = 'moneybirdApi';
+export class MoneybirdApiTokenApi implements ICredentialType {
+	name = 'moneybirdApiTokenApi';
 	displayName = 'Moneybird API';
 	properties: INodeProperties[] = [
 		{
