@@ -1,10 +1,14 @@
 import { IExecuteFunctions } from 'n8n-core';
 import {
+	ILoadOptionsFunctions,
 	INodeExecutionData,
+	INodePropertyOptions,
 	INodeType,
 	INodeTypeDescription,
 	NodeOperationError,
 } from 'n8n-workflow';
+import { getOperations, getResources } from './GenericFunctions';
+import { operations, resources } from './ResourceAndOperationDescription';
 
 export class Moneybird implements INodeType {
 	description: INodeTypeDescription = {
@@ -56,21 +60,26 @@ export class Moneybird implements INodeType {
 				],
 				default: 'accessToken',
 			},
-			{
-				displayName: 'My String',
-				name: 'myString',
-				type: 'string',
-				default: '',
-				placeholder: 'Placeholder value',
-				description: 'The description text',
-			},
+			...resources,
+			...operations,
 		],
 	};
 
-	// The function below is responsible for actually doing whatever this node
-	// is supposed to do. In this case, we're just appending the `myString` property
-	// with whatever the user has entered.
-	// You can make async calls and use `await`.
+	methods = {
+		loadOptions: {
+			async getResources(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+				const data = await getResources.call(this);
+				return data;
+			},
+			async getOperations(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+				const resource = this.getNodeParameter('resource', '') as string;
+				const data = await getOperations.call(this,resource);
+				return data;
+			},
+
+		},
+	};
+
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
 
