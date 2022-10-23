@@ -6,18 +6,29 @@ import {
 	NodeOperationError,
 } from 'n8n-workflow';
 
-export class ExampleNode implements INodeType {
+export class Moneybird implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Example Node',
-		name: 'exampleNode',
+		displayName: 'Moneybird',
+		name: 'moneybird',
 		group: ['transform'],
 		version: 1,
-		description: 'Basic Example Node',
+		description: 'Moneybird',
+		icon: 'file:moneybird.svg',
 		defaults: {
-			name: 'Example Node',
+			name: 'Moneybird',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
+		credentials: [
+			{
+				name: 'moneybirdApi',
+				required: true,
+			},
+			{
+				name: 'moneybirdOAuth2Api',
+				required: true,
+			},
+		],
 		properties: [
 			// Node properties which the user gets displayed and
 			// can change on the node.
