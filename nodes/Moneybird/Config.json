@@ -29,7 +29,7 @@
 							}
 					]
 			},
-			"Create":{
+			"create":{
 					"uri":"/products/:productId/iets/:anderId",
 					"method":"post",
 					"body":[
