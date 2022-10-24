@@ -173,8 +173,6 @@ export async function getIds(this: IExecuteFunctions | ILoadOptionsFunctions, re
 	}
 
 	return returnData;
-
-
 }
 
 export async function getQueryOptions(this: IExecuteFunctions | ILoadOptionsFunctions, resource:string,operation:string){
@@ -213,7 +211,37 @@ export async function getFieldsData(this: IExecuteFunctions | ILoadOptionsFuncti
 	return returnData;
 }
 
+export async function getConfig(this: IExecuteFunctions | ILoadOptionsFunctions, resource:string,operation:string){
+	const resourceConfig = (config as IDataObject)[resource] || {};
+	const operationConfig = (resourceConfig as IDataObject)[operation] || {};
 
+	return operationConfig;
+}
+
+
+export async function getQueryParams(this: IExecuteFunctions | ILoadOptionsFunctions, itemIndex:number){
+	const filledParams = this.getNodeParameter('query.query', itemIndex, []) as IDataObject[];
+	const returnData:IDataObject = await optionsToSimpleObject(filledParams,'param','value');
+
+	return returnData
+}
+
+export async function getBodyParams(this: IExecuteFunctions | ILoadOptionsFunctions, itemIndex:number){
+	const filledParams = this.getNodeParameter('data.field', itemIndex, []) as IDataObject[];
+	const returnData:IDataObject = await optionsToSimpleObject(filledParams,'fieldName','fieldValue');
+
+	return returnData
+}
+
+
+
+export async function optionsToSimpleObject(options:IDataObject[],name:string,value:string){
+	const returnData:IDataObject = {};
+	for(const param of options){
+		returnData[param[name] as string] = param[value];
+	}
+	return returnData
+}
 
 
 

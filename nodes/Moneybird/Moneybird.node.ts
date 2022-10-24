@@ -1,5 +1,6 @@
 import { IExecuteFunctions } from 'n8n-core';
 import {
+	IDataObject,
 	ILoadOptionsFunctions,
 	INodeExecutionData,
 	INodePropertyOptions,
@@ -8,8 +9,9 @@ import {
 	NodeOperationError,
 } from 'n8n-workflow';
 import { GeneralParameters } from './GeneralParametersDescription';
-import { getFieldsData, getIds, getOperations, getQueryOptions, getResources } from './GenericFunctions';
+import { getBodyParams, getConfig, getFieldsData, getIds, getManyRecords, getOperations, getQueryOptions, getQueryParams, getResources } from './GenericFunctions';
 import { operations, resources } from './ResourceAndOperationDescription';
+import { OperationConfig } from './types';
 
 export class Moneybird implements INodeType {
 	description: INodeTypeDescription = {
@@ -101,19 +103,34 @@ export class Moneybird implements INodeType {
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
+		const resource = this.getNodeParameter('resource', 0, '') as string;
+		const operation = this.getNodeParameter('operation', 0, '') as string;
+		const config:OperationConfig = await getConfig.call(this,resource,operation) as OperationConfig;
+		const returnItems: INodeExecutionData[] = [];
 
-		let item: INodeExecutionData;
-		let myString: string;
 
 		// Iterates over all input items and add the key "myString" with the
 		// value the parameter "myString" resolves to.
 		// (This could be a different value for each item in case it contains an expression)
 		for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
 			try {
-				myString = this.getNodeParameter('myString', itemIndex, '') as string;
-				item = items[itemIndex];
-
-				item.json['myString'] = myString;
+				if(operation==='Get'){
+					const id = this.getNodeParameter('id', itemIndex, '') as string;
+					const parentId = this.getNodeParameter('parentId', itemIndex, '') as string;
+					const endpoint = config.uri.replace(':id',id).replace(':parentId',parentId);
+					const results = await getManyRecords.call(this,endpoint,{});
+					returnItems.push(...results);
+				}
+				if(operation==='Get Many'){
+					const queryParams = await getQueryParams.call(this,itemIndex);
+					const results = await getManyRecords.call(this,config.uri,queryParams);
+					returnItems.push(...results);
+				}
+				if(operation==='Create'){
+					const queryParams = await getBodyParams.call(this,itemIndex);
+					const results = await getManyRecords.call(this,config.uri,queryParams);
+					returnItems.push(...results);
+				}
 			} catch (error) {
 				// This node should never fail but we want to showcase how
 				// to handle errors.
@@ -134,6 +151,6 @@ export class Moneybird implements INodeType {
 			}
 		}
 
-		return this.prepareOutputData(items);
+		return this.prepareOutputData(returnItems);
 	}
 }

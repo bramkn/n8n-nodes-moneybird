@@ -38,3 +38,11 @@ export type QueryParam = {
 	options:string;
 	description:string;
 }
+
+export type OperationConfig = {
+	uri:string;
+	method:string;
+	object:string;
+	IdList?:IDList;
+
+}

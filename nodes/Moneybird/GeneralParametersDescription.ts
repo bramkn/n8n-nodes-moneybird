@@ -61,7 +61,7 @@ export const GeneralParameters: INodeProperties[] = [
 					{
 						// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
 						displayName: 'Query Parameter Name',
-						name: 'field',
+						name: 'param',
 						// eslint-disable-next-line n8n-nodes-base/node-param-description-missing-from-dynamic-options
 						type: 'options',
 						typeOptions: {

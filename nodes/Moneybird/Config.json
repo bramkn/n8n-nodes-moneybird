@@ -1,7 +1,7 @@
 {
 	"product": {
 			"Get":{
-					"uri":"/products/:productId",
+					"uri":"/products/:id",
 					"method":"get",
 					"IdListConfig":{
 						"uri":"/products",
