@@ -20,10 +20,12 @@ import {
 } from 'n8n-workflow';
 
 import {
+	IDList,
 	LoadedContacts,
 	LoadedProducts,
 	LoadedResource,
 	MoneybirdApiCredentials,
+	QueryParam,
 } from './types';
 
 
@@ -35,11 +37,15 @@ export async function moneybirdApiRequest(
 	body: IDataObject = {},
 	qs: IDataObject = {},
 	isFileRequest:boolean=false,
-	isOath2:boolean=false
 ) {
+	const authenticationMethod = this.getNodeParameter(
+		'authentication',
+		0,
+		'accessToken',
+	) as string;
 	let credentials;
 	let headers={};
-	if(isOath2){
+	if(authenticationMethod=='oAuth2'){
 		credentials = await this.getCredentials('moneybirdOAuth2Api') as MoneybirdApiCredentials;
 	}
 	else{
@@ -72,7 +78,7 @@ export async function moneybirdApiRequest(
 	}
 	try {
 		let response;
-		if(isOath2){
+		if(authenticationMethod=='oAuth2'){
 			const oAuth2Options: IOAuth2Options = {
 				includeCredentialsOnRefreshOnBody: true,
 			};
@@ -93,7 +99,6 @@ export async function getManyRecords(
 	this: IExecuteFunctions | ILoadOptionsFunctions,
 	endpoint:string,
 	qs:IDataObject ={},
-	isOath2:boolean=false,
 ){
 	const returnItems: INodeExecutionData[] = [];
 
@@ -103,7 +108,7 @@ export async function getManyRecords(
 	let data;
 	let dataArray;
 	do{
-		data = await moneybirdApiRequest.call(this,'Get', endpoint, {}, qs,false,isOath2);
+		data = await moneybirdApiRequest.call(this,'Get', endpoint, {}, qs,false);
 		//console.log(data);
 		qs['page'] += 1;
 		dataArray = [].concat(data);
@@ -151,17 +156,18 @@ export async function getOperations(resource:string){
 
 }
 
-export async function getIds(this: IExecuteFunctions | ILoadOptionsFunctions, resource:string,operation:string, isOath2:boolean =false){
+export async function getIds(this: IExecuteFunctions | ILoadOptionsFunctions, resource:string,operation:string){
 	const resourceConfig = (config as IDataObject)[resource] || {};
 	const operationConfig = (resourceConfig as IDataObject)[operation] || {};
-	let endpoint:string = ((operationConfig as IDataObject)['uri'] as string).split('/:')[0] || '';
-	const result = await getManyRecords.call(this,endpoint,{},isOath2);
+	let IdConfig:IDList = (operationConfig as IDataObject)['IdListConfig'] as IDList;
+
+	const results = await getManyRecords.call(this,IdConfig.uri,{});
 	const returnData: INodePropertyOptions[] = [];
-	for(const key of Object.keys(operationConfig)){
+	for(const result of results){
 		returnData.push(
 			{
-				name: key,
-				value: key,
+				name: (result['json'][IdConfig.nameField] as unknown as string),
+				value: (result['json'][IdConfig.idField] as unknown as string),
 			}
 		)
 	}
@@ -169,6 +175,42 @@ export async function getIds(this: IExecuteFunctions | ILoadOptionsFunctions, re
 	return returnData;
 
 
+}
+
+export async function getQueryOptions(this: IExecuteFunctions | ILoadOptionsFunctions, resource:string,operation:string){
+	const resourceConfig = (config as IDataObject)[resource] || {};
+	const operationConfig = (resourceConfig as IDataObject)[operation] || {};
+	const queryOptions:QueryParam[] = (operationConfig as IDataObject)['query'] as QueryParam[] || [] ;
+	const returnData: INodePropertyOptions[] = [];
+	for(const result of queryOptions){
+		returnData.push(
+			{
+				name: result['displayname'],
+				value: result['name'],
+				description: result['description'],
+			}
+		)
+	}
+
+	return returnData;
+}
+
+export async function getFieldsData(this: IExecuteFunctions | ILoadOptionsFunctions, resource:string,operation:string){
+	const resourceConfig = (config as IDataObject)[resource] || {};
+	const operationConfig = (resourceConfig as IDataObject)[operation] || {};
+	const queryOptions:QueryParam[] = (operationConfig as IDataObject)['body'] as QueryParam[] || [] ;
+	const returnData: INodePropertyOptions[] = [];
+	for(const result of queryOptions){
+		returnData.push(
+			{
+				name: result['displayname'],
+				value: result['name'],
+				description: result['description'],
+			}
+		)
+	}
+
+	return returnData;
 }
 
 

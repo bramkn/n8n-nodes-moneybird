@@ -3,174 +3,194 @@
 			"Get":{
 					"uri":"/products/:productId",
 					"method":"get",
-					"IdList":{
+					"IdListConfig":{
 						"uri":"/products",
-						"idFIeld":"id",
+						"idField":"id",
 						"nameField":"title"
 					}
 			},
 			"Get Many":{
 					"uri":"/products",
 					"method":"get",
-					"query":[
-							{
-									"displayName":"query",
-									"name":"query",
-									"type":"string",
-									"array":false
-							},
-							{
-									"displayName":"page",
-									"name":"page",
-									"type":"integer",
-									"array":false
-							},
-							{
-									"displayName":"currency",
-									"name":"currency",
-									"type":"string",
-									"array":false,
-									"options": "currency"
-							}
+					"query": [
+						{
+							"displayname": "query",
+							"name": "query",
+							"type": "String",
+							"array": false,
+							"description": "Allows filtering by product name.",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "page",
+							"name": "page",
+							"type": "Integer",
+							"array": false,
+							"description": "The page to fetch, starting at 1.",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "currency",
+							"name": "currency",
+							"type": "String",
+							"array": false,
+							"description": "ISO three-character currency code, e.g. EUR or USD.",
+							"mandatory": false,
+							"options": []
+						}
 					]
 			},
-			"create":{
+			"Create":{
 					"uri":"/products/:productId",
 					"method":"post",
+					"object":"product",
 					"body":[
-							{
-									"displayName":"title",
-									"name":"title",
-									"type":"string",
-									"array":false,
-									"mandatory":false,
-									"description":""
-							},
-							{
-									"displayName":"description",
-									"name":"description",
-									"type":"string",
-									"array":false,
-									"mandatory":false,
-									"description":""
-							},
-							{
-									"displayName":"price",
-									"name":"price",
-									"type":"string",
-									"array":false,
-									"mandatory":true,
-									"description":""
-							},
-							{
-									"displayName":"document_style_id",
-									"name":"document_style_id",
-									"type":"integer",
-									"array":false,
-									"mandatory":false,
-									"description":""
-							},
-							{
-									"displayName":"ledger_account_id",
-									"name":"ledger_account_id",
-									"type":"integer",
-									"array":false,
-									"mandatory":true,
-									"description":""
-							},
-							{
-									"displayName":"tax_rate_id",
-									"name":"tax_rate_id",
-									"type":"integer",
-									"array":false,
-									"mandatory":false,
-									"description":""
-							},
-							{
-									"displayName":"workflow_id",
-									"name":"workflow_id",
-									"type":"integer",
-									"array":false,
-									"mandatory":false,
-									"description":""
-							},
-							{
-									"displayName":"currency",
-									"name":"currency",
-									"type":"string",
-									"array":false,
-									"mandatory":true,
-									"description":"",
-									"options": "currency"
-							},
-							{
-									"displayName":"checkout_type",
-									"name":"checkout_type",
-									"type":"string",
-									"array":false,
-									"mandatory":false,
-									"description":"",
-									"options": "checkout_type"
-							},
-							{
-									"displayName":"frequency_type",
-									"name":"frequency_type",
-									"type":"string",
-									"array":false,
-									"mandatory":false,
-									"description":"",
-									"options": "frequency_type"
-							},
-							{
-									"displayName":"frequency",
-									"name":"frequency",
-									"type":"integer",
-									"array":false,
-									"mandatory":false,
-									"description":""
-							},
-							{
-									"displayName":"product_type",
-									"name":"product_type",
-									"type":"string",
-									"array":false,
-									"mandatory":false,
-									"description":"",
-									"options": "product_type"
-							},
-							{
-									"displayName":"vat_rate_type",
-									"name":"vat_rate_type",
-									"type":"string",
-									"array":false,
-									"mandatory":false,
-									"description":"",
-									"options": "vat_rate_type"
-							},
-							{
-									"displayName":"max_amount_per_order",
-									"name":"max_amount_per_order",
-									"type":"integer",
-									"array":false,
-									"mandatory":false,
-									"description":""
-							},
-							{
-									"displayName":"identifier",
-									"name":"identifier",
-									"type":"string",
-									"array":false,
-									"mandatory":false,
-									"description":""
-							},
-							{
-									"displayName":"frequency_preset",
-									"name":"frequency_preset",
-									"type":"string",
-									"array":false,
-									"mandatory":false,
-									"description":""
-							}
+						{
+							"displayname": "product[title]",
+							"name": "product[title]",
+							"type": "String",
+							"array": false,
+							"description": "",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "product[description]",
+							"name": "product[description]",
+							"type": "String",
+							"array": false,
+							"description": "",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "product[price]",
+							"name": "product[price]",
+							"type": "Decimal",
+							"array": false,
+							"description": "Required\n            \n            Both a decimal and a string ‘10,95’ are accepted.",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "product[document_style_id]",
+							"name": "product[document_style_id]",
+							"type": "Integer",
+							"array": false,
+							"description": "Should be a valid document style id.",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "product[ledger_account_id]",
+							"name": "product[ledger_account_id]",
+							"type": "Integer",
+							"array": false,
+							"description": "Required\n            \n            Should be a valid ledger account id.",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "product[tax_rate_id]",
+							"name": "product[tax_rate_id]",
+							"type": "Integer",
+							"array": false,
+							"description": "Should be a valid tax rate id.",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "product[workflow_id]",
+							"name": "product[workflow_id]",
+							"type": "Integer",
+							"array": false,
+							"description": "Should be a valid workflow id.",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "product[currency]",
+							"name": "product[currency]",
+							"type": "String",
+							"array": false,
+							"description": "Required\n            \n            ISO three-character currency code, e.g. EUR or USD.",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "product[checkout_type]",
+							"name": "product[checkout_type]",
+							"type": "String",
+							"array": false,
+							"description": "Can be product or subscription.",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "product[frequency_type]",
+							"name": "product[frequency_type]",
+							"type": "String",
+							"array": false,
+							"description": "Can be day, week, month, quarter or year.",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "product[frequency]",
+							"name": "product[frequency]",
+							"type": "Integer",
+							"array": false,
+							"description": "Should be an integer >= 1.",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "product[product_type]",
+							"name": "product[product_type]",
+							"type": "String",
+							"array": false,
+							"description": "Can be digital_service, service or product.",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "product[vat_rate_type]",
+							"name": "product[vat_rate_type]",
+							"type": "String",
+							"array": false,
+							"description": "Can be standard or reduced.",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "product[max_amount_per_order]",
+							"name": "product[max_amount_per_order]",
+							"type": "Integer",
+							"array": false,
+							"description": "Should be an integer 0 <= n < 2.",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "product[identifier]",
+							"name": "product[identifier]",
+							"type": "String",
+							"array": false,
+							"description": "Should be unique for the administration.",
+							"mandatory": false,
+							"options": []
+						},
+						{
+							"displayname": "product[frequency_preset]",
+							"name": "product[frequency_preset]",
+							"type": "String",
+							"array": false,
+							"description": "",
+							"mandatory": false,
+							"options": []
+						}
 					]
 			}
 	}

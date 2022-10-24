@@ -23,3 +23,18 @@ export type FieldsUiValues = Array<{
 	fieldId: string;
 	fieldValue: string;
 }>;
+
+export type IDList = {
+	uri: string;
+	idField:string;
+	nameField:string
+}
+
+export type QueryParam = {
+	displayname:string;
+	name:string;
+	type:string;
+	array:boolean;
+	options:string;
+	description:string;
+}
