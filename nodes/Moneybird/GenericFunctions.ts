@@ -14,6 +14,7 @@ import {
 	ILoadOptionsFunctions,
 	INodeExecutionData,
 	INodePropertyOptions,
+	IOAuth2Options,
 	NodeApiError,
 	NodeOperationError,
 } from 'n8n-workflow';
@@ -34,16 +35,26 @@ export async function moneybirdApiRequest(
 	body: IDataObject = {},
 	qs: IDataObject = {},
 	isFileRequest:boolean=false,
+	isOath2:boolean=false
 ) {
-	const credentials = await this.getCredentials('moneybird') as MoneybirdApiCredentials;
-	const options: OptionsWithUri = {
-		headers: {
+	let credentials;
+	let headers={};
+	if(isOath2){
+		credentials = await this.getCredentials('moneybirdOAuth2Api') as MoneybirdApiCredentials;
+	}
+	else{
+		credentials = await this.getCredentials('moneybirdApiTokenApi') as MoneybirdApiCredentials;
+		headers = {
 			'authorization': `bearer ${credentials.apiToken}`,
-		},
+		};
+	}
+
+	const options: OptionsWithUri = {
+		headers,
 		method,
 		body,
 		qs,
-		uri: `${credentials.host}/api/v2/${credentials.administrationId}/${endpoint}.json`,
+		uri: `https://moneybird.com/api/v2/${credentials.administrationId}/${endpoint}.json`,
 		json: true,
 		gzip: true,
 		rejectUnauthorized: true,
@@ -60,10 +71,52 @@ export async function moneybirdApiRequest(
 		delete options.body;
 	}
 	try {
-		return await this.helpers.request!(options);
+		let response;
+		if(isOath2){
+			const oAuth2Options: IOAuth2Options = {
+				includeCredentialsOnRefreshOnBody: true,
+			};
+		//@ts-ignore
+			response = await this.helpers.requestOAuth2.call(this, 'moneybirdOAuth2Api', options, oAuth2Options);
+		}
+		else{
+			response = await this.helpers.request!(options);
+		}
+		return response;
 	} catch (error:any) {
 		throw new NodeApiError(this.getNode(), error);
 	}
+}
+
+
+export async function getManyRecords(
+	this: IExecuteFunctions | ILoadOptionsFunctions,
+	endpoint:string,
+	qs:IDataObject ={},
+	isOath2:boolean=false,
+){
+	const returnItems: INodeExecutionData[] = [];
+
+	qs['page'] = 1;
+	qs['per_page'] = 100;
+
+	let data;
+	let dataArray;
+	do{
+		data = await moneybirdApiRequest.call(this,'Get', endpoint, {}, qs,false,isOath2);
+		//console.log(data);
+		qs['page'] += 1;
+		dataArray = [].concat(data);
+		for (let dataIndex = 0; dataIndex < dataArray.length; dataIndex++) {
+			const newItem: INodeExecutionData = {
+				json: {},
+				binary: {},
+			};
+			newItem.json = dataArray[dataIndex];
+			returnItems.push(newItem);
+		}
+	} while (dataArray.length === qs['per_page']);// && returnItems.length < limit);
+	return returnItems;
 }
 
 export async function getResources(){
@@ -79,11 +132,30 @@ export async function getResources(){
 
 	return returnData;
 
-
 }
 
 export async function getOperations(resource:string){
 	const operationConfig = (config as IDataObject)[resource] || {};
+	const returnData: INodePropertyOptions[] = [];
+	for(const key of Object.keys(operationConfig)){
+		returnData.push(
+			{
+				name: key,
+				value: key,
+			}
+		)
+	}
+
+	return returnData;
+
+
+}
+
+export async function getIds(this: IExecuteFunctions | ILoadOptionsFunctions, resource:string,operation:string, isOath2:boolean =false){
+	const resourceConfig = (config as IDataObject)[resource] || {};
+	const operationConfig = (resourceConfig as IDataObject)[operation] || {};
+	let endpoint:string = ((operationConfig as IDataObject)['uri'] as string).split('/:')[0] || '';
+	const result = await getManyRecords.call(this,endpoint,{},isOath2);
 	const returnData: INodePropertyOptions[] = [];
 	for(const key of Object.keys(operationConfig)){
 		returnData.push(

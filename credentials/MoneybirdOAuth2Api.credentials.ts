@@ -11,6 +11,12 @@ export class MoneybirdOAuth2Api implements ICredentialType {
 	extends = ['oAuth2Api'];
 	properties: INodeProperties[] = [
 		{
+			displayName: 'Administration Id',
+			name: 'administrationId',
+			type: 'string',
+			default: '',
+		},
+		{
 			displayName: 'Grant Type',
 			name: 'grantType',
 			type: 'hidden',

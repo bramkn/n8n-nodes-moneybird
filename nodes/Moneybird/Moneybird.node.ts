@@ -7,6 +7,7 @@ import {
 	INodeTypeDescription,
 	NodeOperationError,
 } from 'n8n-workflow';
+import { GeneralParameters } from './GeneralParametersDescription';
 import { getOperations, getResources } from './GenericFunctions';
 import { operations, resources } from './ResourceAndOperationDescription';
 
@@ -62,6 +63,7 @@ export class Moneybird implements INodeType {
 			},
 			...resources,
 			...operations,
+			...GeneralParameters,
 		],
 	};
 
@@ -74,6 +76,12 @@ export class Moneybird implements INodeType {
 			async getOperations(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
 				const resource = this.getNodeParameter('resource', '') as string;
 				const data = await getOperations.call(this,resource);
+				return data;
+			},
+			async getIds(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+				const resource = this.getNodeParameter('resource', '') as string;
+				const operation = this.getNodeParameter('operation', '') as string;
+				const data = await getIds.call(this,resource,operation);
 				return data;
 			},
 

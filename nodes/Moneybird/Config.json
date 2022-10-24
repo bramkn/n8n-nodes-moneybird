@@ -2,7 +2,12 @@
 	"product": {
 			"Get":{
 					"uri":"/products/:productId",
-					"method":"get"
+					"method":"get",
+					"IdList":{
+						"uri":"/products",
+						"idFIeld":"id",
+						"nameField":"title"
+					}
 			},
 			"Get Many":{
 					"uri":"/products",
@@ -30,7 +35,7 @@
 					]
 			},
 			"create":{
-					"uri":"/products/:productId/iets/:anderId",
+					"uri":"/products/:productId",
 					"method":"post",
 					"body":[
 							{
