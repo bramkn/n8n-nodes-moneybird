@@ -48,8 +48,8 @@
 					"object":"product",
 					"body":[
 						{
-							"displayname": "product[title]",
-							"name": "product[title]",
+							"displayname": "title",
+							"name": "title",
 							"type": "String",
 							"array": false,
 							"description": "",
@@ -57,8 +57,8 @@
 							"options": []
 						},
 						{
-							"displayname": "product[description]",
-							"name": "product[description]",
+							"displayname": "description",
+							"name": "description",
 							"type": "String",
 							"array": false,
 							"description": "",
@@ -66,8 +66,8 @@
 							"options": []
 						},
 						{
-							"displayname": "product[price]",
-							"name": "product[price]",
+							"displayname": "price",
+							"name": "price",
 							"type": "Decimal",
 							"array": false,
 							"description": "Required\n            \n            Both a decimal and a string ‘10,95’ are accepted.",
@@ -75,8 +75,8 @@
 							"options": []
 						},
 						{
-							"displayname": "product[document_style_id]",
-							"name": "product[document_style_id]",
+							"displayname": "document_style_id",
+							"name": "document_style_id",
 							"type": "Integer",
 							"array": false,
 							"description": "Should be a valid document style id.",
@@ -84,8 +84,8 @@
 							"options": []
 						},
 						{
-							"displayname": "product[ledger_account_id]",
-							"name": "product[ledger_account_id]",
+							"displayname": "ledger_account_id",
+							"name": "ledger_account_id",
 							"type": "Integer",
 							"array": false,
 							"description": "Required\n            \n            Should be a valid ledger account id.",
@@ -93,8 +93,8 @@
 							"options": []
 						},
 						{
-							"displayname": "product[tax_rate_id]",
-							"name": "product[tax_rate_id]",
+							"displayname": "tax_rate_id",
+							"name": "tax_rate_id",
 							"type": "Integer",
 							"array": false,
 							"description": "Should be a valid tax rate id.",
@@ -102,8 +102,8 @@
 							"options": []
 						},
 						{
-							"displayname": "product[workflow_id]",
-							"name": "product[workflow_id]",
+							"displayname": "workflow_id",
+							"name": "workflow_id",
 							"type": "Integer",
 							"array": false,
 							"description": "Should be a valid workflow id.",
@@ -111,8 +111,8 @@
 							"options": []
 						},
 						{
-							"displayname": "product[currency]",
-							"name": "product[currency]",
+							"displayname": "currency",
+							"name": "currency",
 							"type": "String",
 							"array": false,
 							"description": "Required\n            \n            ISO three-character currency code, e.g. EUR or USD.",
@@ -120,8 +120,8 @@
 							"options": []
 						},
 						{
-							"displayname": "product[checkout_type]",
-							"name": "product[checkout_type]",
+							"displayname": "checkout_type",
+							"name": "checkout_type",
 							"type": "String",
 							"array": false,
 							"description": "Can be product or subscription.",
@@ -129,8 +129,8 @@
 							"options": []
 						},
 						{
-							"displayname": "product[frequency_type]",
-							"name": "product[frequency_type]",
+							"displayname": "frequency_type",
+							"name": "frequency_type",
 							"type": "String",
 							"array": false,
 							"description": "Can be day, week, month, quarter or year.",
@@ -138,8 +138,8 @@
 							"options": []
 						},
 						{
-							"displayname": "product[frequency]",
-							"name": "product[frequency]",
+							"displayname": "frequency",
+							"name": "frequency",
 							"type": "Integer",
 							"array": false,
 							"description": "Should be an integer >= 1.",
@@ -147,8 +147,8 @@
 							"options": []
 						},
 						{
-							"displayname": "product[product_type]",
-							"name": "product[product_type]",
+							"displayname": "product_type",
+							"name": "product_type",
 							"type": "String",
 							"array": false,
 							"description": "Can be digital_service, service or product.",
@@ -156,8 +156,8 @@
 							"options": []
 						},
 						{
-							"displayname": "product[vat_rate_type]",
-							"name": "product[vat_rate_type]",
+							"displayname": "vat_rate_type",
+							"name": "vat_rate_type",
 							"type": "String",
 							"array": false,
 							"description": "Can be standard or reduced.",
@@ -165,8 +165,8 @@
 							"options": []
 						},
 						{
-							"displayname": "product[max_amount_per_order]",
-							"name": "product[max_amount_per_order]",
+							"displayname": "[ax_amount_per_order",
+							"name": "max_amount_per_order",
 							"type": "Integer",
 							"array": false,
 							"description": "Should be an integer 0 <= n < 2.",
@@ -174,8 +174,8 @@
 							"options": []
 						},
 						{
-							"displayname": "product[identifier]",
-							"name": "product[identifier]",
+							"displayname": "identifier",
+							"name": "identifier",
 							"type": "String",
 							"array": false,
 							"description": "Should be unique for the administration.",
@@ -183,8 +183,8 @@
 							"options": []
 						},
 						{
-							"displayname": "product[frequency_preset]",
-							"name": "product[frequency_preset]",
+							"displayname": "frequency_preset",
+							"name": "frequency_preset",
 							"type": "String",
 							"array": false,
 							"description": "",

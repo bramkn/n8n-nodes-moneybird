@@ -9,7 +9,7 @@ import {
 	NodeOperationError,
 } from 'n8n-workflow';
 import { GeneralParameters } from './GeneralParametersDescription';
-import { getBodyParams, getConfig, getFieldsData, getIds, getManyRecords, getOperations, getQueryOptions, getQueryParams, getResources } from './GenericFunctions';
+import { getBodyParams, getConfig, getFieldsData, getIds, getManyRecords, getOperations, getQueryOptions, getQueryParams, getResources, moneybirdApiRequest } from './GenericFunctions';
 import { operations, resources } from './ResourceAndOperationDescription';
 import { OperationConfig } from './types';
 
@@ -114,21 +114,24 @@ export class Moneybird implements INodeType {
 		// (This could be a different value for each item in case it contains an expression)
 		for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
 			try {
-				if(operation==='Get'){
+				if(config.method==='get'){
 					const id = this.getNodeParameter('id', itemIndex, '') as string;
 					const parentId = this.getNodeParameter('parentId', itemIndex, '') as string;
 					const endpoint = config.uri.replace(':id',id).replace(':parentId',parentId);
-					const results = await getManyRecords.call(this,endpoint,{});
-					returnItems.push(...results);
-				}
-				if(operation==='Get Many'){
 					const queryParams = await getQueryParams.call(this,itemIndex);
-					const results = await getManyRecords.call(this,config.uri,queryParams);
+					const results = await getManyRecords.call(this,endpoint,queryParams);
 					returnItems.push(...results);
 				}
-				if(operation==='Create'){
-					const queryParams = await getBodyParams.call(this,itemIndex);
-					const results = await getManyRecords.call(this,config.uri,queryParams);
+
+				if(config.method==='post'){
+					const id = this.getNodeParameter('id', itemIndex, '') as string;
+					const parentId = this.getNodeParameter('parentId', itemIndex, '') as string;
+					const endpoint = config.uri.replace(':id',id).replace(':parentId',parentId);
+					const bodyParams = await getBodyParams.call(this,itemIndex);
+					if(config.object!== undefined){
+
+					}
+					const results = await moneybirdApiRequest.call(this,'Post',endpoint,bodyParams);
 					returnItems.push(...results);
 				}
 			} catch (error) {
