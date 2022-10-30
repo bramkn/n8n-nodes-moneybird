@@ -1,0 +1,121 @@
+[
+	{
+		"displayName": "Title",
+		"name": "title",
+		"type": "string",
+		"default": "",
+		"description": ""
+	},
+	{
+		"displayName": "Description",
+		"name": "description",
+		"type": "string",
+		"default": "",
+		"description": ""
+	},
+	{
+		"displayName": "Price",
+		"name": "price",
+		"type": "string",
+		"default": "",
+		"description": ""
+	},
+	{
+		"displayName": "Document Style",
+		"name": "document_style_id",
+		"type": "options",
+		"typeOptions": {
+			"loadOptionsMethod": "getDocumentStyles"
+		},
+		"default": "",
+		"description": ""
+	},
+	{
+		"displayName": "ledger_account",
+		"name": "ledger_account_id",
+		"type": "options",
+		"typeOptions": {
+			"loadOptionsMethod": "getLedgerAccountsSales"
+		},
+		"default": "",
+		"description": ""
+	},
+	{
+		"displayName": "Tax Rate",
+		"name": "tax_rate_id",
+		"type": "options",
+		"typeOptions": {
+			"loadOptionsMethod": "getTaxRatesSales"
+		},
+		"default": "",
+		"description": ""
+	},
+	{
+		"displayName": "Currency",
+		"name": "currency",
+		"type": "options",
+		"typeOptions": {
+			"loadOptionsMethod": "getConfigOptions_currency_options"
+		},
+		"default": "",
+		"description": ""
+	},
+	{
+		"displayName": "Checkout Type",
+		"name": "checkout_type",
+		"type": "options",
+		"default": "",
+		"description": ""
+	},
+	{
+		"displayName": "Frequency Type",
+		"name": "frequency_type",
+		"type": "options",
+		"default": "",
+		"description": ""
+	},
+	{
+		"displayName": "Frequency",
+		"name": "frequency",
+		"type": "number",
+		"default": 1,
+		"description": "Should be an integer >= 1."
+	},
+	{
+		"displayName": "Product Type",
+		"name": "product_type",
+		"type": "options",
+
+		"default": "",
+		"description": ""
+	},
+	{
+		"displayName": "Vat Rate Type",
+		"name": "vat_rate_type",
+		"type": "options",
+
+		"default": "",
+		"description": ""
+	},
+	{
+		"displayName": "Max amount per order",
+		"name": "max_amount_per_order",
+		"type": "number",
+		"default": 1,
+		"description": "Should be an integer 0 <= n < 2."
+	},
+	{
+		"displayName": "Identifier",
+		"name": "identifier",
+		"type": "string",
+		"default": "",
+		"description": "Should be unique for the administration."
+	},
+	{
+		"displayName": "Frequency Preset",
+		"name": "frequency_preset",
+		"type": "string",
+		"default": "",
+		"description": ""
+	}
+]

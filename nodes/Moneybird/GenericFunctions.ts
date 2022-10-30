@@ -193,6 +193,12 @@ export async function getQueryOptions(this: IExecuteFunctions | ILoadOptionsFunc
 	return returnData;
 }
 
+export async function getConfigOptions(this: IExecuteFunctions | ILoadOptionsFunctions,option:string){
+	const options: INodePropertyOptions[] = ((config as IDataObject)[option] as INodePropertyOptions[]) || [];
+
+	return options;
+}
+
 export async function getFieldsData(this: IExecuteFunctions | ILoadOptionsFunctions, resource:string,operation:string){
 	const resourceConfig = (config as IDataObject)[resource] || {};
 	const operationConfig = (resourceConfig as IDataObject)[operation] || {};

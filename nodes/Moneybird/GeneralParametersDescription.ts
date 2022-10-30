@@ -1,4 +1,5 @@
 import { INodeProperties } from 'n8n-workflow';
+import productConfig from "./ConfigProducts.json";
 
 export const GeneralParameters: INodeProperties[] = [
 	{
@@ -84,12 +85,8 @@ export const GeneralParameters: INodeProperties[] = [
 		displayName: 'Field Data',
 		name: 'data',
 		placeholder: 'Add field data',
-		type: 'fixedCollection',
-		typeOptions: {
-			loadOptionsDependsOn:['resource','operation'],
-			multipleValues: true,
-			sortable: true,
-		},
+		type: 'collection',
+		options: 	(productConfig as INodeProperties[]),
 		default: {},
 		displayOptions: {
 			show: {
@@ -99,30 +96,5 @@ export const GeneralParameters: INodeProperties[] = [
 				],
 			},
 		},
-		options: [
-			{
-				name: 'field',
-				displayName: 'Field',
-				values: [
-					{
-						displayName: 'Field Name or ID',
-						name: 'fieldName',
-						type: 'options',
-						typeOptions: {
-							loadOptionsMethod: 'getFieldsData',
-						},
-						default: '',
-						description: 'Field name to include in item. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>.',
-					},
-					{
-						displayName: 'Field Value',
-						name: 'fieldValue',
-						type: 'string',
-						default: '',
-						description: 'Value for the field to add/edit',
-					},
-				],
-			},
-		],
 	},
 ];

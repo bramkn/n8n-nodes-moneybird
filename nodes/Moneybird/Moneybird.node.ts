@@ -9,7 +9,7 @@ import {
 	NodeOperationError,
 } from 'n8n-workflow';
 import { GeneralParameters } from './GeneralParametersDescription';
-import { getBodyParams, getConfig, getFieldsData, getIds, getManyRecords, getOperations, getQueryOptions, getQueryParams, getResources, moneybirdApiRequest } from './GenericFunctions';
+import { getBodyParams, getConfig, getConfigOptions, getFieldsData, getIds, getManyRecords, getOperations, getQueryOptions, getQueryParams, getResources, moneybirdApiRequest } from './GenericFunctions';
 import { operations, resources } from './ResourceAndOperationDescription';
 import { OperationConfig } from './types';
 
@@ -98,6 +98,10 @@ export class Moneybird implements INodeType {
 				const data = await getFieldsData.call(this,resource,operation);
 				return data;
 			},
+			async getConfigOptions_currency_options(this:ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+				return await getConfigOptions.call(this,'currency_options');
+			},
+
 		},
 	};
 
